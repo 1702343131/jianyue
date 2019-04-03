@@ -1,0 +1,1 @@
+<template name="7c0da685"><view class="_view 7c0da685 container"><view class="_view 7c0da685 list-item list-item-heigher"><view class="_view 7c0da685 left">昵称</view><input type="text" placeholder="{{nickname}}" class="_input 7c0da685" /></view></view></template>
