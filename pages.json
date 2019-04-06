@@ -40,6 +40,14 @@
 		{
 			"path": "pages/info/name",
 			"style": {}
+		},
+		{
+			"path":"pages/signin/signup",
+			"style":{}
+		},
+		{
+			"path":"pages/signin/password",
+			"style":{}
 		}
 	],
 	"globalStyle": {

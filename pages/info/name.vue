@@ -1,4 +1,4 @@
-<template>
+<!-- <template>
 	<view class="container">
 		<view class="list-item list-item-heigher">
 			<view class="left">昵称</view>
@@ -39,8 +39,7 @@
 					header: { 'content-type': 'application/json' },
 					success: res => {
 						if (res.data.code === 0) {
-							console.log(res.data.data.avatar+'————————————');
-							_this.avatar = res.data.data.avatar;
+							
 							_this.nickname = res.data.data.nickname;
 						}
 					}
@@ -49,21 +48,14 @@
 			},
 			updateName: function(user) {
 				var _this = this;
-				user.name = this.nickname;
+				user.nickname = this.nickname;
 				this.$http({
 					method: 'post',
 					url: 'http://47.100.178.47:8080/api/user',
 					data: {
-						userId: _this.loginUserId,
-						courseName: course.courseName,
-						courseClass: course.courseClass,
-						cover: course.cover,
-						finished: 0
+						nickname:'this.nickname'
 					}
-				}).then(function() {
-					alert('新增班课成功');
-					_this.$router.push('/');
-				});
+				})
 			}
 				
 		
@@ -71,4 +63,54 @@
 </script>
 
 <style>
+</style>
+ -->
+ <template>
+		<view class="uni-flex uni-column container">
+		<input
+			class="uni-input"
+			type="text"
+			value=""
+			placeholder="请修改"
+			v-model="renickname"
+			required="required"
+		/>
+		<button class="green-btn" @tap="changeNickname(renickname)">确认修改</button>
+	</view>
+</template>
+
+<script>
+export default {
+	data() {
+		return {
+			renickname:'',
+		};
+	},
+	onLoad() {
+	},
+	methods: {
+		changeNickname: function(renickname) {
+			
+			var _this = this;
+           
+			uni.request({
+				url:  this.apiServer+'/user/nickname?id='+uni.getStorageSync('login_key').userId,
+				method: 'put',
+				data:renickname,
+				header: { 'content-type': 'application/json' },
+				success: res => {
+					uni.navigateBack();
+				}
+			});
+		}
+	}
+};
+</script>
+
+<style>
+input {
+	height: 50px;
+	border-bottom: 1px solid #eee;
+	margin-bottom: 5px;
+}
 </style>

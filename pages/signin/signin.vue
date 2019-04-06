@@ -16,6 +16,12 @@
 			required="required"
 		/>
 		<button class="green-btn" @tap="signIn(userDTO)">登录</button>
+		
+		<view class="forget">
+			<navigator url="signup">
+			  注册
+			</navigator>
+		</view>
 	</view>
 </template>
 
@@ -39,7 +45,7 @@ export default {
 			var _this = this;
 			// console.log(userDTO.mobile + ',' + userDTO.password);
 			uni.request({
-				url: 'http://47.100.178.47:8080/api/user/sign_in',
+				url: this.apiServer+'/user/sign_in',
 				// url: 'http://172.20.10.4:8080/api/user/sign_in',
 				method: 'POST',
 				data: {
@@ -63,7 +69,9 @@ export default {
 						uni.showToast({
 							title: '登录成功'
 						});
-						uni.navigateBack();
+						uni.switchTab({
+							url: '../my/my'
+						});
 					}
 					//登录失败，弹出各种原因
 					else {
@@ -84,5 +92,10 @@ input {
 	height: 50px;
 	border-bottom: 1px solid #eee;
 	margin-bottom: 5px;
+}
+.forget{
+	text-align: center;
+	margin-top: 20px;
+	color: red;
 }
 </style>

@@ -18,7 +18,7 @@
 			</view>
 			<view class="info-box">
 				<navigator url="../signin/signin" v-if="!storageData.login">点击登录</navigator>
-				<text v-if="storageData.login">{{ storageData.nickname }}</text>
+				<text v-if="storageData.login">{{nickname}}</text>
 				<navigator url="../setting/setting" v-if="storageData.login">
 					<text class="setting-txt">个人设置</text>
 				</navigator>
@@ -105,7 +105,7 @@ export default {
 			};
 		}
 		uni.request({
-			url: 'http://47.100.178.47:8080/api/user/' + uni.getStorageSync('login_key').userId,
+			url:  this.apiServer+'/user/' + uni.getStorageSync('login_key').userId,
 			method: 'GET',
 			header: { 'content-type': 'application/json' },
 			success: res => {

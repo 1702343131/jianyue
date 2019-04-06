@@ -7,7 +7,9 @@
     "pages/write/write",
     "pages/info/info",
     "pages/setting/setting",
-    "pages/info/name"
+    "pages/info/name",
+    "pages/signin/signup",
+    "pages/signin/password"
   ],
   "subPackages": [],
   "window": {
