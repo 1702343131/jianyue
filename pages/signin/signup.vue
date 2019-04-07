@@ -44,7 +44,7 @@ export default {
 	},
 	methods: {
 		getVerifyCode: function() {
-			const TIME_COUNT = 10;
+			const TIME_COUNT = 20;
 
 			var _this = this;
 			uni.request({
@@ -63,6 +63,19 @@ export default {
 						});
 						_this.disabled = true;
 						console.log(_this.disabled);
+							if (!this.timer) {
+							this.count = TIME_COUNT;
+							this.show = false;
+							this.timer = setInterval(() => {
+								if (this.count > 0 && this.count <= TIME_COUNT) {
+									this.count--;
+								} else {
+									this.show = true;
+									clearInterval(this.timer);
+									this.timer = null;
+								}
+							}, 1000);
+						}
 					} else {
 						uni.showModal({
 							title: '提示',
@@ -71,19 +84,7 @@ export default {
 					}
 				}
 			});
-			if (!this.timer) {
-				this.count = TIME_COUNT;
-				this.show = false;
-				this.timer = setInterval(() => {
-					if (this.count > 0 && this.count <= TIME_COUNT) {
-						this.count--;
-					} else {
-						this.show = true;
-						clearInterval(this.timer);
-						this.timer = null;
-					}
-				}, 1000);
-			}
+		
 		},
 		checkCode: function() {
 			var _this = this;

@@ -53,4 +53,9 @@ export default {
 };
 </script>
 
-<style></style>
+<style scoped>
+	.uni-input{
+		margin-top: 10px;
+	}
+		
+</style>

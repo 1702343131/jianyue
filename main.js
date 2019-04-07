@@ -2,7 +2,7 @@ import Vue from 'vue'
 import App from './App'
 
 Vue.config.productionTip = false
-Vue.prototype.apiServer = 'http://10.40.129.156:8080/api'
+Vue.prototype.apiServer = 'http://10.30.161.39:8080/api'
 App.mpType = 'app'
 
 const app = new Vue({
