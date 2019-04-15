@@ -9,7 +9,11 @@
     "pages/setting/setting",
     "pages/info/name",
     "pages/signin/signup",
-    "pages/signin/password"
+    "pages/signin/password",
+    "pages/info/passwordchanged",
+    "pages/article_detail/article_detail",
+    "pages/write/write",
+    "pages/my/fan"
   ],
   "subPackages": [],
   "window": {

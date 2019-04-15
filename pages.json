@@ -16,9 +16,11 @@
 			}
 		},
 		{
-			"path": "pages/my/my",
+			"path":"pages/my/my",
 			"style": {
-				"navigationBarTitleText": "我的"
+				"navigationBarTitleText": "我的",
+				"enablePullDownRefresh": true
+				
 			}
 		},
 		{
@@ -48,7 +50,22 @@
 		{
 			"path":"pages/signin/password",
 			"style":{}
-		}
+		},{
+			"path":"pages/info/passwordchanged",
+			"style":{}
+		},{
+			"path":"pages/article_detail/article_detail",
+			"style":{}
+			},
+			{
+				"path":"pages/write/write",
+				"style":{}
+			},
+			{
+				"path":"pages/my/fan",
+				"style":{}
+			}
+		
 	],
 	"globalStyle": {
 		"navigationBarTextStyle": "black",

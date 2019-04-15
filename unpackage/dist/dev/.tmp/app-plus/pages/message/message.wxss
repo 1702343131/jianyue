@@ -1,0 +1,49 @@
+
+.grace-tab-title.data-v-8b6ed65c {
+	color: #000000;
+}
+.background.data-v-8b6ed65c {
+	width: 100%;
+	height: 190px;
+}
+.box.data-v-8b6ed65c {
+	position: absolute;
+	top: 19px;
+	left: 50px;
+	color: rgb(255, 255, 255);
+}
+.top.data-v-8b6ed65c {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-orient: vertical;
+	-webkit-box-direction: normal;
+	-webkit-flex-direction: column;
+	    -ms-flex-direction: column;
+	        flex-direction: column;
+	text-align: center;
+	margin-top: 5px;
+	height: 190px;
+}
+.info-box.data-v-8b6ed65c {
+	display: -webkit-box;
+	display: -webkit-flex;
+	display: -ms-flexbox;
+	display: flex;
+	-webkit-box-orient: vertical;
+	-webkit-box-direction: normal;
+	-webkit-flex-direction: column;
+	    -ms-flex-direction: column;
+	        flex-direction: column;
+	padding-left: 10px;
+	padding-top: 10rpx;
+}
+.nickname.data-v-8b6ed65c {
+	font-weight: bold;
+	font-size: 25px;
+}
+.fans.data-v-8b6ed65c {
+	font-size: 16px;
+}
+

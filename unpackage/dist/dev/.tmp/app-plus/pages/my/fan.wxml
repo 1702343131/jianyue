@@ -1,0 +1,2 @@
+<import src="./fan.vue.wxml" />
+    <template is="e96da0d2" data="{{ ...$root['0'], $root }}"/>

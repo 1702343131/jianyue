@@ -1,0 +1,24 @@
+{
+  "name": "jianyue",
+  "version": "1.0.0",
+  "main": "main.js",
+  "dependencies": {
+    "@dcloudio/uni-ui": "0.0.7"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/1702343131/jianyue.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "bugs": {
+    "url": "https://github.com/1702343131/jianyue/issues"
+  },
+  "homepage": "https://github.com/1702343131/jianyue#readme",
+  "description": ""
+}
