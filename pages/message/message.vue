@@ -1,165 +1,198 @@
 <template>
 	<view class="container">
-		<view class="top">
-			<image src="../../static/backgr.jpg" class="background"></image>
-			<view class="box">
-				<view class="avatar-box">
-					<image :src=" user.avatar " mode="scaleToFill" class="avatar"></image>
-
-				</view>
-				<view class="info-box">
-					<text class="nickname">{{ user.nickname }} </text>
-					<text class="fans">关注 0 | 粉丝 0</text>
-					<text class="fans">个人简介:用户很懒,暂时还没有简介~~~</text>
-				</view>
+		<scroll-view class="grace-tab-title grace-center" scroll-x="true" id="grace-tab-title">
+			<view v-for="(tab, index) in tabs" :key="index" :class="[tabCurrentIndex == index ? 'grace-tab-current' : '']" :id="'tabTag-' + index" @tap="tabChange">
+				{{ tab.name }}
 			</view>
-
-		</view>
-
-		<view>
-			<!-- 选项卡 -->
-			<view class="grace-tab" style="margin-top:10px;">
-				<scroll-view class="grace-tab-title" :scroll-x="true" :scroll-into-view="titleShowId">
-					<view v-for="(tab, index) in tabs" :class="[tabCurrentIndex == index ? 'grace-tab-current' : '']" :id="'tabTag-'+index"
-					 @tap="tabChange" :key="index">{{tab.name}}</view>
+		</scroll-view>
+		<swiper class="grace-tab-swiper-full" :current="swiperCurrentIndex" @change="swiperChange" :style="{ height: tabHeight + 'px' }">
+			<!-- 循环新闻项目 -->
+			<swiper-item v-for="(articles, newsIndex) in newsAll" :key="newsIndex">
+				<scroll-view scroll-y="true" :data-scindex="newsIndex" @scrolltolower="scrollend">
+					<view class="grace-news-list" style="padding:25upx; width:700upx;">
+						<navigator v-for="(article, index) in articles" :key="index">
+							<view class="grace-news-list-items">
+								<view class="grace-news-list-title">
+									<view class="grace-news-list-title-main"> {{ article.content }} </view>
+									<text class="grace-news-list-title-desc grace-text-overflow">描述</text>
+								</view>
+							</view>
+						</navigator>
+					</view>
+					<graceLoading :loadingType="tabs[newsIndex].loadingType"></graceLoading>
 				</scroll-view>
-				<swiper class="grace-tab-swiper" :current="swiperCurrentIndex" @change="swiperChange" style="height:1000upx;">
-					<swiper-item>
-						<uni-list-item title="基本资料" show-arrow="false" disabled="true"></uni-list-item>
-						<uni-list-item title="信息" note="性别 男 20岁 水瓶座 江苏 南京" show-arrow="false"></uni-list-item>
-						<uni-list-item title="公司" note="暂无公司" show-arrow="false"></uni-list-item>
-						<uni-list-item title="学校" note="南京工业职业技术学院" show-arrow="false"></uni-list-item>
-						<uni-list-item title="感情状况" note="未知" show-arrow="false"></uni-list-item>
-						<uni-list-item title="注册时间" note="2019-1-1" show-arrow="false"></uni-list-item>
-					</swiper-item>
-					<swiper-item>动态</swiper-item>
-					<swiper-item>更多</swiper-item>
-				</swiper>
-			</view>
-			<!-- 选项卡 -->
-		</view>
+			</swiper-item>
+		</swiper>
 	</view>
 </template>
 
 <script>
-	var loginRes, _self;
-	import uniGrid from "@dcloudio/uni-ui/lib/uni-grid/uni-grid.vue"
-	import uniList from '@dcloudio/uni-ui/lib/uni-list/uni-list.vue';
-	import uniListItem from '@dcloudio/uni-ui/lib/uni-list-item/uni-list-item.vue';
-	export default {
-		components: {
-			uniGrid,
-			uniList,
-			uniListItem
-		},
-		data() {
-			return {
-				user: {
-					id: 0,
-					mobile: '',
-					password: '',
-					nickname: '',
-					token: '',
-					status: '',
-					regtime: '',
-					avatar: '',
-				},
-				tabCurrentIndex: 0,
-				swiperCurrentIndex: 0,
-				tabs: [{
-						name: '主页',
-						id: 'guanye'
-					},
-					{
-						name: '动态',
-						id: 'dongtai'
-					},
-					{
-						name: '更多',
-						id: 'gengduo'
+var _self;
+var news = [
+	{ title: '新闻标题', desc: '新闻描述...' },
+	{ title: '新闻标题', desc: '新闻描述...' },
+	{ title: '新闻标题', desc: '新闻描述...' },
+	{ title: '新闻标题', desc: '新闻描述...' },
+	{ title: '新闻标题', desc: '新闻描述...' },
+	{ title: '新闻标题', desc: '新闻描述...' },
+	{ title: '新闻标题', desc: '新闻描述...' },
+	{ title: '新闻标题', desc: '新闻描述...' },
+	{ title: '新闻标题', desc: '新闻描述...' },
+	{ title: '新闻标题', desc: '新闻描述...' }
+];
+var articles = [articles.getArticles()];
+//对应下面3个标签的新闻内容数据
+var newsAll = [articles, news, news];
+import graceLoading from '../../graceUI/components/graceLoading.vue';
+export default {
+	data() {
+		return {
+			articles: [],
+			tabCurrentIndex: 0,
+			swiperCurrentIndex: 0,
+			tabHeight: 300,
+			tabs: [
+				//标签名称 , 分类 id , 加载更多, 加载的页码
+				{ name: '关注', id: 'guanzhu', loadingType: 0, page: 1 },
+				{ name: '推荐', id: 'tuijian', loadingType: 0, page: 1 },
+				{ name: '体育', id: 'tiyu', loadingType: 0, page: 1 }
+			],
+			newsAll: newsAll
+		};
+	},
+	onLoad: function() {
+		_self = this;
+		this.getArticles();
+	},
+	onShow: function() {},
+	onPullDownRefresh: function() {
+		this.getArticles();
+	},
+	onReady: function() {
+		//获取屏幕高度及比例
+		var winInfo = uni.getSystemInfo({
+			success: function(res) {
+				var windowHeight = res.windowHeight;
+				//获取头部标题高度
+				var dom = uni.createSelectorQuery().select('#grace-tab-title');
+				dom.fields({ size: true }, res2 => {
+					if (!res2) {
+						return;
 					}
-				],
-				titleShowId: 'tabTag-0'
-			};
-		},
-		onLoad: function(option) {
-			uni.setNavigationBarTitle({
-				title: '好友个人空间'
-			});
-			this.user.id = option.fromUId;
-		},
-		onShow: function() {
-			this.getUser();
-		},
-		methods: {
-			getUser: function() {
-				uni.request({
-					url: this.apiServer + '/user/' + this.user.id,
-					method: 'GET',
-					header: {
-						'content-type': 'application/x-www-form-urlencoded'
-					},
-					success: res => {
-						this.user = res.data.data;
-					}
-				})
-			},
-			tabChange: function(e) {
-				var index = e.target.id.replace('tabTag-', '');
-				this.swiperCurrentIndex = index;
-				this.tabCurrentIndex = index;
-				this.titleShowId = 'tabTag-' + index;
-			},
-			swiperChange: function(e) {
-				var index = e.detail.current;
-				this.tabCurrentIndex = index;
-				this.titleShowId = 'tabTag-' + index;
+					//计算得出滚动区域的高度
+					_self.tabHeight = windowHeight - res2.height;
+				}).exec();
 			}
-		}
-	};
+		});
+	},
+	methods: {
+		tabChange: function(e) {
+			var index = e.target.id.replace('tabTag-', '');
+			this.swiperCurrentIndex = index;
+			this.tabCurrentIndex = index;
+		},
+		swiperChange: function(e) {
+			var index = e.detail.current;
+			this.tabCurrentIndex = index;
+		},
+		//每个选项滚动到底部
+		scrollend: function(e) {
+			//获取是哪个选项滚动到底？
+			var index = e.currentTarget.dataset.scindex;
+			console.log(index);
+			//可以利用 tabs 携带的分类id 与服务器交互请求对应分类的数据
+			console.log(this.tabs[index].id);
+			//加载更多的演示
+			//判断当前是否正在加载
+			if (this.tabs[index].loadingType === 1) {
+				return false;
+			}
+			//判断是否是最后一页
+			console.log(this.tabs[index].page);
+			if (this.tabs[index].page > 3) {
+				this.tabs[index].loadingType = 2; //全部
+				return;
+			}
+			this.tabs[index].loadingType = 1; //加载中
+			//模拟延迟
+			setTimeout(function() {
+				_self.newsAll[index] = _self.newsAll[index].concat(news);
+				//分页
+				_self.tabs[index].page++;
+				_self.tabs[index].loadingType = 0; //恢复加载状态
+				//
+			}, 1000);
+		},
+		getArticles: function() {
+			var _this = this;
+			uni.request({
+				url: this.apiServer + "/article/selectAll",
+				method: 'GET',
+				header: {
+					'content-type': 'application/x-www-form-urlencoded'
+				},
+				success: res => {
+					_this.articles = res.data.data;
+					for(var i=0;i<_this.articles.length;i++){
+						_this.articles[i].content=this.handleContent(this.handleContent2(_this.articles[i].content));
+					 _this.articles[i].createTime = this.handleTime(_this.articles[i].createTime);
+					}
+				},
+				complete: function() {
+					uni.stopPullDownRefresh();
+				}
+			});
+		},
+		gotoWrite:function(){
+			if(uni.getStorageSync('login_key').login === true){
+			uni.navigateTo({
+				url:'../write/write'
+			});
+			}else{
+				uni.showModal({
+					
+					title:'提示',
+					content:'请先登录',
+					success() {
+					uni.navigateTo({
+						url:'../signin/signin'
+					})
+				}
+		
+				});
+			}
+		},
+		gotoDetail: function(aId) {
+				uni.navigateTo({
+					url: '../article_detail/article_detail?aId=' + aId
+				});
+			},
+						handleTime: function(date) {
+					var d = new Date(date);
+					var year = d.getFullYear();
+					var month = d.getMonth() + 1;
+					var day = d.getDate() < 10 ? '0' + d.getDate() : '' + d.getDate();
+					var hour = d.getHours() < 10 ? '0' + d.getHours() : '' + d.getHours();
+					var minutes = d.getMinutes() < 10 ? '0' + d.getMinutes() : '' + d.getMinutes();
+					var seconds = d.getSeconds() < 10 ? '0' + d.getSeconds() : '' + d.getSeconds();
+					return year + '' + month + '-' + day + '' + hour + ":" + minutes + ':' + seconds
+				},
+				handleContent: function(msg) {
+					return msg.substring(0, 30);
+				},
+				handleContent2: function(description) {
+				description = description.replace(/(\n)/g, '');
+				description = description.replace(/(\t)/g, '');
+				description = description.replace(/(\r)/g, '');
+				description = description.replace(/<\/?[^>]*>/g, '');
+				description = description.replace(/\s*/g, '');
+				return description;
+			}
+	},
+	components: {
+		graceLoading
+	}
+};
 </script>
 
-<style scoped>
-	.grace-tab-title {
-		color: #000000;
-	}
-
-	.background {
-		width: 100%;
-		height: 190px;
-	}
-
-	.box {
-		position: absolute;
-		top: 19px;
-		left: 50px;
-		color: rgb(255, 255, 255);
-	}
-
-	.top {
-		display: flex;
-		flex-direction: column;
-		text-align: center;
-		margin-top: 5px;
-		height: 190px;
-	}
-
-
-
-	.info-box {
-		display: flex;
-		flex-direction: column;
-		padding-left: 10px;
-		padding-top: 10upx;
-
-	}
-
-	.nickname {
-		font-weight: bold;
-		font-size: 25px;
-	}
-
-	.fans {
-		font-size: 16px;
-	}
-</style>
+<style></style>

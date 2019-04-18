@@ -43,18 +43,7 @@
 					</view>
 				</view>
 
-				<!-- <view class="content" v-if="cateCurrentIndex === 0">
-				<view class="grace-scroll-do grace-bg-white grace-common-mt">
-					<scroll-view class="grace-scroll-x" scroll-x v-for="(article, index) in articles" :scroll-left="scrollIndex == index ? 180 : 0" @touchstart='touchStart' @touchend='touchEnd' :data-id="index" scroll-with-animation="true" :key="index">
-						
-							<view class="contents">
-								<view class="grace-h5 grace-blod">{{article.title}}</view>
-					         </view>
-						
-						<view class="grace-items btn" :data-id="index" @tap="removeMsg" :style="{width : index == deleteIndex ? deleteBtnWidth + 'px' : btn2Width+'px'}">删除</view>
-					</scroll-view>
-				</view>
-			</view> -->
+				
 				<!-- 关注部分 -->
 				<view class="content" v-if="cateCurrentIndex === 1">
 					<view class="list">
